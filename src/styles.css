@@ -1,0 +1,100 @@
+/* Basic styling for the application */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  /* Main content wrapper to limit width */
+  .app {
+    width: 100%;
+    max-width: 600px; /* Limiting the maximum width to ensure content does not stretch too wide on larger screens */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Header styling */
+  header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  /* Form styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  /* Input and select styling */
+  input, textarea, select {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%; /* Ensure inputs fill the form width */
+    box-sizing: border-box;
+  }
+  
+  /* Button styling */
+  button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  /* Task list styling */
+  .task-list {
+    margin: 20px 0;
+  }
+  
+  /* Task item styling */
+  .task {
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  /* Task item title styling */
+  .task h3 {
+    margin: 0;
+  }
+  
+  
+  /* Controls styling */
+  .controls {
+    display: flex;
+    flex-direction: column; /* Keep controls stacked vertically */
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive design adjustments for mobile screens */
+  @media (max-width: 768px) {
+    .app {
+      padding: 10px;
+    }
+  
+    header {
+      padding: 10px;
+    }
+  
+    form {
+      margin: 10px 0;
+    }
+  }
+  
+  
