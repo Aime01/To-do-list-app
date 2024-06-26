@@ -2,22 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
-import { fetchTasks } from './utils/api';
 import { getTasksFromStorage, saveTasksToStorage } from './utils/storage';
 import { v4 as uuidv4 } from 'uuid';
+import Footer from './components/Footer';
 
 const App = () => {
   // Initialize the tasks state as an empty array.
   const [tasks, setTasks] = useState([]);
-
-  // Effect to load tasks from the API when the component mounts.
-  useEffect(() => {
-    const loadTasks = async () => {
-      const apiTasks = await fetchTasks();
-      setTasks(apiTasks); // Set tasks state with tasks fetched from the API.
-    };
-    loadTasks();
-  }, []);
 
   // Effect to load tasks from local storage when the component mounts.
   useEffect(() => {
@@ -60,14 +51,7 @@ const App = () => {
     setTasks(filteredTasks); // Update tasks state with filtered tasks.
   };
 
-  const [apiData, setApiData] = useState(null);
 
-  useEffect(() => {
-    fetch('https://onlineprojectsgit.github.io/API/WDEndpoint.json')
-      .then(response => response.json())
-      .then(data => setApiData(data))
-      .catch(error => console.error(error));
-  }, []);
   const setIsEditing=(id, isEditing)=>{
     const result = tasks.map(task =>{
       if(task.id === id){
@@ -103,14 +87,7 @@ const App = () => {
         editTargetTask={editTargetTask}
       /> {/* Render the task list component */}
        {/* Render the fetched data at the bottom of the page */}
-      {apiData && (
-        <div style={{ backgroundColor: '#f0f0f0', padding: '10px', marginTop: '20px', borderRadius: '5px' }}>
-        <h2 style={{ color: '#007bff', borderBottom: '1px solid #ccc' }}>API Data:</h2>
-        <pre style={{ backgroundColor: '#fff', padding: '10px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-          {JSON.stringify(apiData, null, 2)}</pre>
-        </div>
-      )}  
-
+      <Footer/>
     </div>
   );
 };
