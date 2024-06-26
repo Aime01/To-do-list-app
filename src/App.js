@@ -102,7 +102,7 @@ const App = () => {
         editTargetTask={editTargetTask}
         handleOnSortChange={handleOnSortChange}
       />
-        <Footer/>
+   
     </div>
   );
 };
