@@ -38,6 +38,7 @@ const TaskForm = ({ addTask }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h3>Please enter your task</h3>
       <input type="text" name="name" placeholder="Task Name" value={task.name} onChange={handleChange} required />
       <textarea name="description" placeholder="Task Description" value={task.description} onChange={handleChange} required></textarea>
       <input type="date" name="dueDate" value={task.dueDate} onChange={handleChange} required />
