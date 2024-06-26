@@ -5,7 +5,6 @@ import TaskList from './components/TaskList';
 import {fetchData} from './utils/api';
 import { getTasksFromStorage, saveTasksToStorage } from './utils/storage';
 import { v4 as uuidv4 } from 'uuid';
-import Footer from './components/Footer';
 
 const App = () => {
   const [course, setCourse]=useState();
