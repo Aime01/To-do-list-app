@@ -4,6 +4,7 @@ import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import { fetchTasks } from './utils/api';
 import { getTasksFromStorage, saveTasksToStorage } from './utils/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   // Initialize the tasks state as an empty array.
@@ -35,18 +36,7 @@ const App = () => {
 
   // Function to add a new task to the tasks state.
   const addTask = (task) => {
-    setTasks([...tasks, { ...task, id: Date.now() }]); // Add new task with unique ID.
-  };
-
-  // Function to edit an existing task.
-  const editTask = (id) => {
-    const taskToEdit = tasks.find(task => task.id === id); // Find the task to edit.
-    if (taskToEdit) {
-      const updatedTask = prompt("Edit task details:", JSON.stringify(taskToEdit)); // Prompt user for new task details.
-      if (updatedTask) {
-        setTasks(tasks.map(task => (task.id === id ? JSON.parse(updatedTask) : task))); // Update task in state.
-      }
-    }
+    setTasks([...tasks, { ...task, id: uuidv4(), isEditing: false }]); // Add new task with unique ID.
   };
 
   // Function to remove a task from the tasks state.
@@ -66,7 +56,7 @@ const App = () => {
 
   // Function to filter tasks by status.
   const filterTasks = (status) => {
-    const filteredTasks = getTasksFromStorage().filter(task => task.status === status); // Filter tasks by status.
+    const filteredTasks = tasks.filter(task => task.status === status); // Filter tasks by status.
     setTasks(filteredTasks); // Update tasks state with filtered tasks.
   };
 
@@ -78,7 +68,27 @@ const App = () => {
       .then(data => setApiData(data))
       .catch(error => console.error(error));
   }, []);
+  const setIsEditing=(id, isEditing)=>{
+    const result = tasks.map(task =>{
+      if(task.id === id){
+       task.isEditing = isEditing;
+       return task;
+      }
+      return task;
+    })
+    setTasks(result);
+  }
 
+  const editTargetTask=(id, e)=>{
+    const result = tasks.map(task =>{
+      if(task.id === id){
+        task[e.target.name]=e.target.value;
+        return task;
+      }
+      return task
+    })
+    setTasks(result);
+  }
   // Render the application UI.
   return (
     <div className="App">
@@ -86,10 +96,11 @@ const App = () => {
       <TaskForm addTask={addTask} /> {/* Render the task form component */}
       <TaskList
         tasks={tasks}
-        editTask={editTask}
         removeTask={removeTask}
         sortTasks={sortTasks}
         filterTasks={filterTasks}
+        setIsEditing={setIsEditing}
+        editTargetTask={editTargetTask}
       /> {/* Render the task list component */}
        {/* Render the fetched data at the bottom of the page */}
       {apiData && (

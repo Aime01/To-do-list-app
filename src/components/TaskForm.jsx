@@ -8,7 +8,8 @@ const TaskForm = ({ addTask }) => {
     description: '',
     dueDate: '',
     assignedTo: '',
-    status: 'in-progress'
+    status: 'in-progress',
+    isEditing: false
   });
 
   // Handle input changes and update state accordingly.

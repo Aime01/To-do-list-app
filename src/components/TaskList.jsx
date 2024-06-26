@@ -2,7 +2,7 @@ import React from 'react';
 import Task from './Task';
 
 // TaskList component displays a list of tasks.
-const TaskList = ({ tasks, editTask, removeTask, sortTasks, filterTasks }) => {
+const TaskList = ({ tasks, removeTask, sortTasks, filterTasks, setIsEditing, editTargetTask }) => {
   // Check if tasks is an array before mapping.
   if (!Array.isArray(tasks)) {
     return null; // or you can return some fallback UI.
@@ -21,7 +21,7 @@ const TaskList = ({ tasks, editTask, removeTask, sortTasks, filterTasks }) => {
       
       {/* Map over tasks and render each one using the Task component */}
       {tasks.map(task => (
-        <Task key={task.id} task={task} editTask={editTask} removeTask={removeTask} />
+        <Task key={task.id} task={task} removeTask={removeTask} setIsEditing={setIsEditing} editTargetTask={editTargetTask}/>
       ))}
     </div>
   );
