@@ -31,32 +31,22 @@ const App = () => {
 
   // Function to add a new task to the tasks state.
   const addTask = (task) => {
-    const totalTasksToStore = [...totalTasks, { ...task, id: uuidv4(), isEditing: false }]
+    const totalTasksToStore = [...displayTasks, { ...task, id: uuidv4(), isEditing: false }]
     setTotalTasks(totalTasksToStore); // Add new task with unique ID.
-    setDisplayTasks(totalTasksToStore); // Add new task with unique ID.
+    setDisplayTasks(totalTasksToStore);
     saveTasksToStorage(totalTasksToStore);
   };
 
   // Function to remove a task from the tasks state.
   const removeTask = (id) => {
-    const tasksAfterRemove = totalTasks.filter(task => task.id !== id);
+    const tasksAfterRemove = displayTasks.filter(task => task.id !== id);
     setTotalTasks(tasksAfterRemove); // Filter out the task to remove.
-    setDisplayTasks(tasksAfterRemove)
+    setDisplayTasks(tasksAfterRemove);
+    saveTasksToStorage(tasksAfterRemove);
   };
-  const setIsEditing=(id, isEditing)=>{
-    const result = totalTasks.map(task =>{
-      if(task.id === id){
-       task.isEditing = isEditing;
-       return task;
-      }
-      return task;
-    })
-    setTotalTasks(result);
-    setDisplayTasks(result);
-  }
 
   const handleOnSortChange=(status)=>{
-    if(status==='all'){
+    if(status==='all') {
       setDisplayTasks(totalTasks);
     } else {
       const filteredTasks = totalTasks.filter(task => task.status === status); // Filter tasks by status.
@@ -64,16 +54,15 @@ const App = () => {
     }
   }
 
-  const editTargetTask=(id, e)=>{
-    const result = totalTasks.map(task =>{
+  const editTargetTask=(id, editedTask)=>{
+    const result = displayTasks.map(task =>{
       if(task.id === id){
-        task[e.target.name]=e.target.value;
-        return task;
+        return editedTask;
       }
       return task
     })
-    setTotalTasks(result);
     setDisplayTasks(result);
+    setTotalTasks(result);
   }
   const renderData=(value)=>{
     return <div>
@@ -97,7 +86,6 @@ const App = () => {
       <TaskList
         tasks={displayTasks}
         removeTask={removeTask}
-        setIsEditing={setIsEditing}
         editTargetTask={editTargetTask}
         handleOnSortChange={handleOnSortChange}
       />

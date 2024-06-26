@@ -1,59 +1,77 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 // Task component displays individual task details and provides edit and remove functionality.
-const Task = ({ task, removeTask, setIsEditing , editTargetTask}) => {
-    const handleSubmit=()=>{
-        setIsEditing(task.id, false)
+const Task = ({ task, removeTask , editTargetTask}) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [taskToEdit, setTaskToEdit] = useState(task);
+
+    const handleChange=(e)=>{
+        const newTask = {...task};
+        newTask[e.target.name] = e.target.value;
+        setTaskToEdit(newTask)
     }
-    const handleChange = (e) => {
-        editTargetTask(task.id, e)
-    };
-    if(task.isEditing) {
+
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        editTargetTask(task.id, taskToEdit);
+        setIsEditing(false)
+    }
+
+    if(isEditing) {
         return <form onSubmit={handleSubmit}>
+            <h3>Edit Task:</h3>
             <input
                 type="text"
                 name="name"
-                value={task.name}
+                value={taskToEdit.name}
                 onChange={handleChange}
+                required
             />
             <textarea
                 name="description"
-                value={task.description}
+                value={taskToEdit.description}
                 onChange={handleChange}
+                required
             ></textarea>
             <input
                 type="date"
                 name="dueDate"
-                value={task.dueDate}
+                value={taskToEdit.dueDate}
                 onChange={handleChange}
+                required
             />
             <input
                 type="text"
                 name="assignedTo"
-                value={task.assignedTo}
+                value={taskToEdit.assignedTo}
                 onChange={handleChange}
+                required
             />
             <select
                 name="status"
-                value={task.status}
+                value={taskToEdit.status}
                 onChange={handleChange}
+                required
             >
                 <option value="in-progress">In Progress</option>
                 <option value="completed">Completed</option>
                 <option value="review">Review</option>
             </select>
             <button type="submit">Save</button>
-            <button type="button" onClick={() => setIsEditing(task.id, false)}>Cancel</button>
+            <button type="button" onClick={() => {
+                setTaskToEdit(task);
+                setIsEditing(false)
+            }}>Cancel</button>
         </form>
     }
     return (
         <div className="task">
-            <h3>{task.name}</h3>
+            <h4>{task.name}</h4>
             <p>{task.description}</p>
             <p>Due Date: {task.dueDate}</p>
             <p>Assigned To: {task.assignedTo}</p>
             <p>Status: {task.status}</p>
-            <button onClick={() => setIsEditing(task.id, true)}>Edit</button>
+            <button style={{marginRight:'1rem'}} onClick={() => setIsEditing(true)}>Edit</button>
             <button onClick={() => removeTask(task.id)}>Remove</button>
         </div>
     );
